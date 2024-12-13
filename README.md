@@ -1,2 +1,3 @@
 # Wine-Quality
-ESE 417 Final Project
+
+FinalReport.txt: latex code so far
