@@ -1,0 +1,334 @@
+\documentclass[Conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{hyperref}
+\usepackage{mdframed}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% my coding template
+\usepackage{listings}
+\usepackage{color}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Python,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\title{Classification of Red Wine Quality Data \\ \vspace{0.1cm}}
+
+\author{
+\vspace{0.7cm}
+  \begin{minipage}[t]{0.32\linewidth}
+    \centering
+    \IEEEauthorblockN{Julie Baguio} \\ 
+    \IEEEauthorblockA{
+      \textit{McKelvey School of Engineering} \\
+      \textit{Washington University in St. Louis} \\
+      Saint Louis, MO \\
+      baguio@wustl.edu
+    }
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{0.32\linewidth}
+    \centering
+    \IEEEauthorblockN{Kanan Ahmadov} \\
+    \IEEEauthorblockA{
+      \textit{McKelvey School of Engineering} \\
+      \textit{Washington University in St. Louis} \\
+      Saint Louis, MO \\
+      a.kanan@wustl.edu
+    }
+  \end{minipage}
+    \hfill
+  \begin{minipage}[t]{0.32\linewidth}
+    \centering
+    \IEEEauthorblockN{Nathan Zhou} \\
+    \IEEEauthorblockA{
+      \textit{McKelvey School of Engineering} \\
+      \textit{Washington University in St. Louis} \\
+      Saint Louis, MO \\
+      nathan.j.zhou@wustl.edu
+    }
+  \end{minipage}
+}
+
+\maketitle
+
+\begin{abstract}
+This project implements and compares three machine learning classification methods— 
+\\BLAH 
+\\BLAH 
+\\BLAH 
+\\(SHOULD BE WRITTEN AFTER WE FINISH THE REPORT)
+\end{abstract}
+
+\section{\textbf{Introduction}}
+Machine learning is an application of artificial intelligence that enables systems to learn and improve from experience automatically, without being explicitly programmed. By building mathematical models based on training data, machine learning transforms raw data into actionable insights and knowledge. In this project, machine learning techniques were applied to a classification problem: predicting the quality of red wine based on its physicochemical attributes.
+
+\\
+
+The dataset used is the Red Wine Quality dataset, sourced from the UCI Machine Learning Repository. It contains 1,599 samples, with each sample representing a wine characterized by 11 physicochemical features, including acidity, alcohol content, and chlorides. The target variable, quality, is a discrete value ranging from 3 to 8, corresponding to expert evaluations of wine quality.
+
+\\
+
+The primary goal of this project was to implement and optimize three classification methods—Support Vector Machine (SVM), Artificial Neural Networks (ANN), and K-Nearest Neighbors (KNN)—to predict wine quality effectively. To achieve this, the project involved several critical steps. A thorough exploratory data analysis was performed to understand feature distributions, relationships among attributes, and the overall quality distribution. The dataset was then preprocessed through normalization and standardization to ensure consistent feature scales, thereby improving model performance.
+
+The classification models were implemented with distinct methodologies. SVM utilized hyperplanes to separate data points, ANN employed multi-layered structures to capture complex patterns, and KNN relied on proximity-based predictions. The models were evaluated and compared using various metrics, including accuracy, precision, recall, F1-score, and confusion matrices. Additionally, hyperparameters were tuned to optimize performance, such as SVM's C parameter, ANN's activation functions and learning rates, and KNN's number of neighbors and distance metrics.
+
+\\
+
+Through this project, valuable insights into the behavior and strengths of these machine learning methods were gained. The analysis revealed the strengths and limitations of each approach, with SVM demonstrating robustness in handling high-dimensional data, ANN capturing intricate relationships between features, and KNN excelling in scenarios with well-defined local patterns.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{\textbf{Exploratory Analysis}}
+The exploratory analysis provides a detailed understanding of the dataset, focusing on the characteristics of the features, their relationships, and their impact on wine quality. This step forms the foundation for building effective machine learning models.
+
+\\
+
+As mentioned in Introduction, the dataset comprises 1,599 samples, each characterized by 11 physicochemical attributes such as acidity, alcohol content, and residual sugar. The target variable, wine quality, ranges discretely from 3 to 8. As depicted in Fig. 1, the histogram of wine quality distribution highlights a class imbalance, with most wines rated as 5 or 6. This imbalance poses challenges for ensuring balanced predictions across all quality classes.
+
+% Histogram of Wine Quality Distribution
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{distribution-wine-quality.png}
+    \caption{Histogram of Wine Quality Distribution. The chart highlights the class imbalance in the dataset, with most wines receiving ratings of 5 or 6.}
+    \label{fig:histogram}
+\end{figure}
+
+This underscores the challenge of achieving balanced predictions across all classes. To further understand the dataset, histograms were created for each physicochemical feature, as shown in Fig. 2. These histograms reveal variations in feature distributions. For instance, attributes such as alcohol show a nearly normal distribution, while others, like volatile acidity and chlorides, are skewed. Such variability underscores the need for normalization and standardization during preprocessing.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.15\textwidth]{distribution of features/alcohol.png}
+    \includegraphics[width=0.15\textwidth]{distribution of features/chlorides.png}
+    \includegraphics[width=0.15\textwidth]{distribution of features/citric-acid.png}
+    \includegraphics[width=0.15\textwidth]{distribution of features/density.png}
+    \includegraphics[width=0.15\textwidth]{distribution of features/fixed-acidity.png}
+    \includegraphics[width=0.15\textwidth]{distribution of features/free-sulfur-dioxide.png}
+    \includegraphics[width=0.15\textwidth]{distribution of features/ph.png}
+    \includegraphics[width=0.15\textwidth]{distribution of features/residual-sugar.png}
+    \includegraphics[width=0.15\textwidth]{distribution of features/sulphates.png}
+    \includegraphics[width=0.15\textwidth]{distribution of features/total-sulfur-dioxide.png}
+    \includegraphics[width=0.15\textwidth]{distribution of features/volatile-acidity.png}
+    \caption{Feature Distributions. The histograms display the variability in the distributions of the physicochemical features.}
+    \label{fig:histogram}
+\end{figure}
+
+Furthermore, scatterplots, shown in Fig. 3, were used to analyze the relationships between individual features and the target variable. These plots highlight trends such as a positive correlation between alcohol content and wine quality, while attributes like residual sugar show weaker relationships. This analysis provides initial insights into which features might be more influential in predicting wine quality.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.15\textwidth]{feature vs quality plots/alcohol-vs-quality.png}
+    \includegraphics[width=0.15\textwidth]{feature vs quality plots/chlorides-vs-quality.png}
+    \includegraphics[width=0.15\textwidth]{feature vs quality plots/citric-acid-vs-quality.png}
+    \includegraphics[width=0.15\textwidth]{feature vs quality plots/density-vs-quality.png}
+    \includegraphics[width=0.15\textwidth]{feature vs quality plots/fixed-acidity-vs-quality.png}
+    \includegraphics[width=0.15\textwidth]{feature vs quality plots/free-sulfur-dioxide-vs-quality.png}
+    \includegraphics[width=0.15\textwidth]{feature vs quality plots/ph-vs-quality.png}
+    \includegraphics[width=0.15\textwidth]{feature vs quality plots/residual-sugar-vs-quality.png}
+    \includegraphics[width=0.15\textwidth]{feature vs quality plots/sulphates-vs-quality.png}
+    \includegraphics[width=0.15\textwidth]{feature vs quality plots/total-sulfur-dioxide-vs-quality.png}
+    \includegraphics[width=0.15\textwidth]{feature vs quality plots/volatile-acidity-vs-quality.png}
+    \caption{Feature vs. Quality Scatterplots. These plots illustrate the relationships between physicochemical features and wine quality ratings.}
+    \label{fig:pca}
+\end{figure}
+
+To delve deeper into feature interdependencies, a correlation matrix was generated, as depicted in Fig. 4. The heatmap reveals strong correlations between some features, such as free sulfur dioxide and total sulfur dioxide, while most attributes have weak correlations with the target variable. This highlights the dataset's complexity and the potential need for machine learning algorithms to capture non-linear relationships.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{correlation-heatmap.png}
+    \caption{Correlation Heatmap. The matrix showcases interdependencies between physicochemical features and the target variable.}
+    \label{fig:pca}
+\end{figure}
+
+Finally, Principal Component Analysis (PCA) was applied to reduce the dataset's dimensionality, offering a simplified view of feature interactions. The PCA scatter plot, shown in Fig. 5, illustrates the separability of wine quality classes in reduced dimensions. While overlapping is evident for adjacent quality classes, PCA reveals discernible patterns that suggest the feasibility of classification using machine learning.
+
+% PCA Scatter Plot
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{pca.png}
+    \caption{PCA Scatter Plot. This visualization highlights the separability of wine quality classes in reduced dimensions.}
+    \label{fig:pca}
+\end{figure}
+
+In summary, the exploratory analysis revealed significant variability and complexity within the dataset. Insights from feature distributions, relationships, and dimensionality reduction emphasize the importance of preprocessing and inform the selection and optimization of classification models.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{\textbf{Methods}}
+The machine learning models we applied in this project include Support Vector Machine (SVM), Artificial Neural Networks (ANN), and K-Nearest Neighbors (KNN). Each model was implemented with an emphasis on optimizing performance through careful preprocessing, precise hyperparameter tuning, and thorough evaluation.
+
+\subsection{\textbf{SVM}}
+
+The Support Vector Machine was implemented as one of the primary classification models in this project. The SVM algorithm aimed to find the optimal hyperplane that separates data points of different classes. To maximize its predictive accuracy, several steps were undertaken, including hyperparameter tuning, visualization of the model’s behavior, and evaluation of its performance.
+
+\\ 
+
+First, the SVM model was trained using the scikit-learn SVC class, with hyperparameter tuning conducted through grid search using GridSearchCV. The hyperparameter grid included various values for the regularization parameter C ([0.1, 1, 10, 50, 100]), different kernel functions (linear, radial basis function [rbf], sigmoid, and polynomial), and gamma settings (scale and auto). A 5-fold cross-validation was used during the grid search to identify the best combination of parameters. Once the grid search was complete, the model with the optimal parameters was trained on the training data and used to make predictions on the test set.
+
+\\
+
+To evaluate the SVM's performance, a confusion matrix was plotted (Fig. 6). This visualization provides insight into the model’s strengths and weaknesses in classifying specific categories, showing how well the model performed in correctly classifying wine quality classes. Additionally, a classification report was generated, which included metrics such as accuracy, precision, recall, and F1-score, offering a comprehensive evaluation of the model’s performance.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{conf-matrix-svm.png}
+    \caption{Confusion Matrix for SVM. This matrix illustrates the classification performance of the SVM model across wine quality classes.}
+    \label{fig:pca}
+\end{figure}
+
+To further analyze the SVM model, the impact of the C parameter on accuracy was studied. The C parameter controls the trade-off between achieving a low error on the training set and maintaining a large margin that separates classes. A series of SVM models were trained with different C values, and their corresponding accuracies on the test set were plotted (Fig. 7). This analysis highlighted the sensitivity of the model’s performance to the choice of the regularization parameter, aiding in understanding the balance between underfitting and overfitting.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{effect-c-svm-accuracy.png}
+    \caption{Effect of C Parameter on SVM Accuracy. This plot shows how varying the regularization parameter C affects the model's accuracy on the test set.}
+    \label{fig:pca}
+\end{figure}
+
+\subsection{\textbf{ANN}}
+
+Artificial Neural Networks were implemented as another key classification model in this project. The implementation focused on identifying the optimal hyperparameters for training a multi-layer perceptron (MLP) and evaluating its performance.
+
+\\
+
+To optimize the performance of the ANN, a hyperparameter tuning process was conducted using a grid search. The hyperparameter grid included four activation functions (identity, logistic, tanh, and ReLU), seven regularization parameters (alpha: 0.00001, 0.0001, 0.001, 0.01, 0.1, 1, 10), and five learning rates (0.001, 0.01, 0.1, 1, 10). A total of 140 combinations were tested. Each model was trained on the training dataset using the scikit-learn MLPClassifier class, and its performance was evaluated on the test dataset. The combination of parameters that achieved the highest accuracy was identified as the optimal configuration.
+
+\\
+
+After determining the best parameters, the ANN model was retrained using the optimal hyperparameters: the tanh activation function, alpha = 1e-05, and a learning rate of 0.1. The model was then evaluated on the test data. A confusion matrix was plotted to visualize the model's classification performance across different wine quality classes. Additionally, a classification report was generated, providing detailed metrics such as accuracy, precision, recall, and F1-score for each class, as well as macro and weighted averages.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{ANN-confusion-matrix.png}
+    \caption{Confusion Matrix for ANN. This matrix illustrates the classification performance of the ANN model across wine quality classes.}
+    \label{fig:pca}
+\end{figure}
+
+\subsection{\textbf{KNN}}
+The final classification model used in this project was the K-Nearest Neighbors Algorithm. The KNN Algorithm works under the assumption that data points are clustered together by class in the feature space. It predicts the class of a given data point to be the mode of the class of the K nearest neighbors based on a distance metric.  
+
+% Cross Validation of K Values and Metric Functions Plots
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{KNN_cross_validation.png}
+    \caption{A K value of 54 and the cityblock metric function had the highest cross validation scores.}
+    \label{fig:enter-label}
+\end{figure}
+The model used in this project was the KNeighborsClassifier sourced from the scikit-learn 
+neighbors class. To select the most optimal settings for the model, a 5-fold cross-validation was performed with various K values (5, 6, ..., 78) and distance metrics (cityblock, euclidean, cosine, l1, l2, and manhattan). We then trained the model with the strongest performing values for parameters; the class of each point in the test set was determined to be the class mode of the 54 nearest data points in the training set based on the cityblock distance metric. Our KNN model was then evaluated based on accuracy and by a confusion matrix.
+
+% KNN Confusion Matrix
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{KNN_confusion_matrix.png}
+    \caption{KNN Confusion Matrix. Samples with quality 5 and 6 were reliably predicted by our model.}
+    \label{fig:enter-label}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{\textbf{Results and Analysis}}
+The results of the three classification models— SVM, ANN, and KNN—are evaluated based on performance metrics such as accuracy, precision, recall, and F1-score. These metrics provide a comprehensive understanding of how effectively each model classified wine quality, considering the inherent class imbalance in the dataset.
+
+\\
+
+The SVM model achieved an overall accuracy of 63\%. The best hyperparameters for the SVM were C = 10, kernel rbf, and gamma = auto. The classification report for SVM shows weighted averages for precision, recall, and F1-score of 0.62, 0.63, and 0.63, respectively. However, the SVM struggled to accurately predict minority classes such as quality ratings of 0, 1, and 5, as evident from their poor precision and recall scores. The model performed better on majority classes, particularly for quality ratings of 5 and 6, indicating that SVM is robust in handling high-dimensional data but is also affected by class imbalance in the dataset.
+
+% SVM Classification Report
+\begin{figure}[H]
+    \begin{mdframed}[linewidth=0.5pt, roundcorner=1pt]
+    \centering
+    \includegraphics[width=0.9\textwidth]{SVM-classificationReport.png}
+    \end{mdframed}
+    \caption{SVM Classification Report. The trained model had an accuracy of 0.63.}
+    \label{fig:pca}
+\end{figure}
+
+The ANN model achieved an overall accuracy of 62\%, with optimal hyperparameters including an activation function of tanh, $\alpha$ = $10^{-5}$, and a learning rate of 0.1. The classification report for ANN indicates weighted averages for precision, recall, and F1-score of 0.61, 0.62, and 0.61, respectively. The ANN model performed comparably to the SVM but exhibited slightly lower recall for minority classes. This could be due to the model’s difficulty in generalizing to these rare instances or potential overfitting during training. Despite its limitations with minority classes, ANN performed well on majority classes, similar to SVM.
+
+% ANN Classification Report
+\begin{figure}[H]
+    \begin{mdframed}[linewidth=0.5pt, roundcorner=1pt]
+    \centering
+    \includegraphics[width=0.9\textwidth]{ANN-classificationReport.png}
+    \end{mdframed}
+    \caption{ANN Classification Report. The trained model had an accuracy of 0.62.}
+    \label{fig:pca}
+\end{figure}
+
+The KNN model achieved the highest accuracy among the three models, with an overall accuracy of 66\%. The best parameters for KNN were 54 neighbors and the cityblock distance metric. The classification report for KNN shows weighted averages for precision, recall, and F1-score of 0.64, 0.66, and 0.64, respectively. KNN demonstrated improved accuracy compared to SVM and ANN, particularly for the majority classes. However, like the other models, KNN struggled to predict the minority classes accurately, which reflects the challenges posed by the dataset’s imbalance. The model’s reliance on local density and proximity for predictions allowed it to perform better on classes with a larger sample size.
+
+% KNN Classification Report
+\begin{figure}[H]
+    \begin{mdframed}[linewidth=0.5pt, roundcorner=1pt]
+    \centering
+    \includegraphics[width=0.9\textwidth]{KNN_classification_report.png}
+    \end{mdframed}
+    \caption{KNN Classification Report. The trained model had an accuracy of 0.66.}
+    \label{fig:pca}
+\end{figure}
+
+In conclusion, while KNN outperformed SVM and ANN in terms of overall accuracy and other performance metrics, all three models faced challenges in predicting minority classes. The results highlight the importance of preprocessing, hyperparameter tuning, and the need to address class imbalance to improve predictive performance for rare classes.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{\textbf{Conclusion}}
+In this project, we successfully applied three machine learning classification algorithms—SVM, ANN, and KNN—to predict the quality of red wine based on physicochemical attributes. The project explored various stages, from data preprocessing and exploratory analysis to model implementation, hyperparameter tuning, and performance evaluation.
+
+\\
+
+The SVM model demonstrated robustness and flexibility, achieving an accuracy of 63\% with the optimal parameters. Its ability to handle high-dimensional data and its sensitivity to the regularization parameter C provided valuable insights into the trade-offs between overfitting and underfitting. The ANN model, while slightly less accurate at 62\%, captured complex relationships between features and highlighted the importance of tuning hyperparameters such as activation functions, learning rates, and regularization coefficients. The KNN model achieved the highest accuracy of 66\%, showcasing its effectiveness in leveraging local patterns and the significance of selecting an appropriate number of neighbors and distance metric.
+
+\\
+
+Throughout the analysis, metrics such as accuracy, precision, recall, F1-score, and confusion matrices were used to evaluate the strengths and weaknesses of each model. The class imbalance in the dataset posed a challenge, as evident from the varying precision and recall values across wine quality classes. Despite these challenges, the models provided a reasonably effective prediction of wine quality, with each algorithm offering unique strengths based on the characteristics of the dataset.
+
+\\
+
+Furthemore, the exploratory analysis and feature visualizations, including histograms, scatter plots, and correlation heatmaps, were instrumental in understanding the dataset's structure and guiding the preprocessing and model selection steps. Principal Component Analysis further highlighted the complexity of the classification task, with overlapping regions among adjacent quality classes.
+
+\\
+
+In conclusion, this project provided an opportunity to explore machine learning's practical applications in a real-world problem. The comparative analysis of SVM, ANN, and KNN demonstrated the trade-offs between different algorithms and emphasized the importance of data preprocessing and hyperparameter tuning. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\clearpage
+\onecolumn
+\section{\textbf{Appendix}}
+
+\begin{lstlisting}
+    # our code goes here
+\end{lstlisting}
+
+\end{document}
