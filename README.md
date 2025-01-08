@@ -29,3 +29,9 @@ This project focuses on applying machine learning techniques to predict red wine
 - **Libraries:** scikit-learn, matplotlib, pandas, seaborn, numpy
 - **Techniques:** Data Standardization, Feature Selection, GridSearchCV, Cross-Validation
 - **Visualizations:** Confusion Matrices, Feature Distributions, Classification Reports
+
+## Want to Learn More?
+If you want to dive deeper into the details of our project, including methodology, results, and analysis, check out the following pdf in this REPO:
+```
+Classification_of_Red_Wine_Quality.pdf
+```
